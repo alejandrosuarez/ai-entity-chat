@@ -9,6 +9,8 @@ import { fetchEntityWithImagesAction } from '@/lib/actions'
 import { useToast } from '@/hooks/use-toast'
 import { type SearchEntity } from '@/lib/api'
 import { type EntityWithImages } from '@/lib/entityHelpers'
+import { RequestInfoButton } from './RequestInfoButton'
+import { ContactOwnerButton } from './ContactOwnerButton'
 
 interface EntityDetailModalProps {
   isOpen: boolean
@@ -116,15 +118,25 @@ export function EntityDetailModal({ isOpen, onClose, entity }: EntityDetailModal
               <div className="space-y-1">
                 {entity.attributes && Object.keys(entity.attributes).length > 0 ? (
                   Object.entries(entity.attributes).map(([key, value]) => (
-                    <div key={key} className="flex justify-between items-start text-xs border-b pb-1">
-                      <span className="font-medium capitalize text-muted-foreground">
+                    <div key={key} className="flex justify-between items-center text-xs border-b pb-1 gap-2">
+                      <span className="font-medium capitalize text-muted-foreground min-w-0">
                         {key.replace('_', ' ')}:
                       </span>
-                      <span className="text-right max-w-[60%] break-words">
-                        {value !== null && value !== undefined ? String(value) : (
-                          <span className="text-muted-foreground italic">not set</span>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-right break-words">
+                          {value !== null && value !== undefined ? String(value) : (
+                            <span className="text-muted-foreground italic">not set</span>
+                          )}
+                        </span>
+                        {(value === null || value === undefined || value === '') && (
+                          <RequestInfoButton 
+                            entityId={entity.id}
+                            attributeName={key.replace('_', ' ')}
+                            ownerEmail={entity.owner_id}
+                            entityName={entityName}
+                          />
                         )}
-                      </span>
+                      </div>
                     </div>
                   ))
                 ) : (
@@ -205,6 +217,16 @@ export function EntityDetailModal({ isOpen, onClose, entity }: EntityDetailModal
                 </Button>
               </div>
             )}
+            
+            {/* Contact Owner */}
+            <div className="space-y-2 border-t pt-4">
+              <h3 className="font-medium text-sm">Contact</h3>
+              <ContactOwnerButton 
+                entityId={entity.id} 
+                ownerId={entity.owner_id} 
+                entityName={entityName} 
+              />
+            </div>
           </>
         )}
       </div>
