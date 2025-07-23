@@ -27,10 +27,10 @@ export async function verifyOtpAction(email: string, otp: string) {
   if (result.success && result.token) {
     // Set the auth token in an httpOnly cookie
     const cookieStore = await cookies()
-    cookieStore.set('auth-token', result.token, {
+    cookieStore.set('auth_token', result.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax', // Changed from strict to lax for production compatibility
       maxAge: 60 * 60 * 24 * 7, // 7 days
       path: '/',
     })
@@ -58,13 +58,13 @@ export async function createEntityAction(data: CreateEntityRequest) {
 
 export async function logoutAction() {
   const cookieStore = await cookies()
-  cookieStore.delete('auth-token')
+  cookieStore.delete('auth_token')
   revalidatePath('/')
 }
 
 export async function getAuthStatusAction() {
   const cookieStore = await cookies()
-  const token = cookieStore.get('auth-token')?.value
+  const token = cookieStore.get('auth_token')?.value
   return !!token
 }
 
