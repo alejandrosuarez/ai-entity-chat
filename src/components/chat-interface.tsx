@@ -170,12 +170,16 @@ export function ChatInterface() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'ai_subscription_interest',
-          email: email,
-          timestamp: new Date().toISOString(),
-          metadata: {
+          userId: email, // Using email as identifier for non-authenticated users
+          eventType: 'ai_subscription_interest',
+          message: `User ${email} showed interest in AI subscription`,
+          link: window.location.href,
+          tenantContext: 'marketing',
+          eventPayload: {
+            email: email,
             source: 'chat_input_marketing_banner',
-            pricing: '$9.99/month beta offer'
+            pricing: '$9.99/month beta offer',
+            timestamp: new Date().toISOString()
           }
         })
       })

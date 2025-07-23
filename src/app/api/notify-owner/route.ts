@@ -60,11 +60,11 @@ export async function POST(request: Request) {
       }
     }
 
-    fetch(`${request.url.replace('/notify-owner', '/notifications/log')}`, {
+    fetch(`${API_BASE_URL}/api/notifications/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Cookie": `auth_token=${token}`,
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify(logPayload),
     }).catch(console.error)
