@@ -8,7 +8,11 @@ export async function POST(request: Request) {
   const cookieStore = await cookies()
   const token = cookieStore.get("auth_token")?.value
 
+  console.log('notify-owner: token exists?', !!token)
+  console.log('notify-owner: API_BASE_URL:', API_BASE_URL)
+
   if (!token) {
+    console.log('notify-owner: No auth token found in cookies')
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
@@ -20,6 +24,7 @@ export async function POST(request: Request) {
     const ownerChatUrl = generateOwnerChatUrl(chatId, ownerId, entityId)
 
     // Send push notification to owner
+    console.log('notify-owner: Calling chat-request API:', `${API_BASE_URL}/api/notifications/chat-request`)
     const apiResponse = await fetch(`${API_BASE_URL}/api/notifications/chat-request`, {
       method: "POST",
       headers: {
@@ -33,15 +38,24 @@ export async function POST(request: Request) {
       }),
     })
 
+    console.log('notify-owner: chat-request response status:', apiResponse.status)
     if (!apiResponse.ok) {
-      console.error('Failed to send notification:', await apiResponse.text())
-      return NextResponse.json({ error: "Failed to notify owner" }, { status: 500 })
+      const errorText = await apiResponse.text()
+      console.error('notify-owner: Failed to send notification:', errorText)
+      return NextResponse.json({ error: "Failed to notify owner" }, { status: apiResponse.status })
     }
 
     // Get current user info for logging
+    console.log('notify-owner: Calling auth/me API:', `${API_BASE_URL}/api/auth/me`)
     const userResponse = await fetch(`${API_BASE_URL}/api/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
+    console.log('notify-owner: auth/me response status:', userResponse.status)
+    
+    if (!userResponse.ok) {
+      console.error('notify-owner: Failed to get user info:', await userResponse.text())
+    }
+    
     const { user } = await userResponse.json()
 
     // Log notification using the correct endpoint (fire and forget)
