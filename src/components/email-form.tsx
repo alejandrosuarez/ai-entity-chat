@@ -34,6 +34,11 @@ export function EmailForm({ onSuccess }: EmailFormProps) {
         const result = await sendOtpAction(email)
 
         if (result.success) {
+          // Store email in localStorage for marketing purposes
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('user-email', email)
+          }
+          
           toast({
             title: 'OTP Sent',
             description: 'Check your email for the verification code.',

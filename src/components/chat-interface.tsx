@@ -21,6 +21,7 @@ import { type EntityWithImages } from '@/lib/entityHelpers'
 import { ThemeToggle } from './theme-toggle'
 import { LanguageToggle } from './language-toggle'
 import { useTranslations } from 'next-intl'
+import MarketingBanner from './MarketingBanner'
 
 // Counter to ensure unique message IDs
 let messageIdCounter = 0
@@ -48,11 +49,20 @@ export function ChatInterface() {
   const [currentView, setCurrentView] = useState<'none' | 'email' | 'otp' | 'commands' | 'list' | 'create' | 'explore'>('none')
   const [statusLog, setStatusLog] = useState<string[]>([])
   const [persistentMessages, setPersistentMessages] = useState<Array<{id: string, content: React.ReactNode, type: 'user' | 'system'}>>([])
+  const [showMarketingBanner, setShowMarketingBanner] = useState(false)
+  const [currentUserEmail, setCurrentUserEmail] = useState<string>('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
 
   useEffect(() => {
     checkAuthStatus()
+    // Get user email from localStorage if available
+    if (typeof window !== 'undefined') {
+      const email = localStorage.getItem('user-email')
+      if (email) {
+        setCurrentUserEmail(email)
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -151,6 +161,41 @@ export function ChatInterface() {
     addToStatusLog('Opening entity explorer')
   }
 
+  const handleMarketingInterest = async (email: string) => {
+    try {
+      // Log marketing interest to our API
+      const response = await fetch('/api/notifications/log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'ai_subscription_interest',
+          email: email,
+          timestamp: new Date().toISOString(),
+          metadata: {
+            source: 'chat_input_marketing_banner',
+            pricing: '$9.99/month beta offer'
+          }
+        })
+      })
+
+      if (response.ok) {
+        addToStatusLog(`Marketing interest logged for ${email}`)
+        toast({
+          title: 'Interest Recorded!',
+          description: 'Thanks for your interest! We\'ll notify you when AI features are ready.',
+          variant: 'default',
+        })
+      } else {
+        addToStatusLog('Failed to log marketing interest')
+      }
+    } catch (error) {
+      addToStatusLog('Error logging marketing interest')
+      console.error('Error logging marketing interest:', error)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim()) return
@@ -173,6 +218,12 @@ export function ChatInterface() {
     setPersistentMessages(prev => [...prev, userMessage])
     addToStatusLog(`User: ${input}`)
     setInput('')
+
+    // Show the marketing banner instead of actual chat processing
+    setShowMarketingBanner(true)
+    addToStatusLog('Showing AI subscription offer...')
+    
+    return // Don't process the actual message - this is just marketing
 
     try {
       const response = await submitUserMessage(input)
@@ -214,6 +265,7 @@ export function ChatInterface() {
             <EmailForm
               onSuccess={(email) => {
                 setUserEmail(email)
+                setCurrentUserEmail(email) // Also update current user email
                 setAppState('awaiting_otp')
                 setCurrentView('otp')
                 addToStatusLog(`OTP sent to ${email}`)
@@ -237,6 +289,10 @@ export function ChatInterface() {
                 setAppState('authenticated')
                 setCurrentView('commands')
                 addToStatusLog('Authentication successful!')
+                // Ensure current user email is set
+                if (userEmail && !currentUserEmail) {
+                  setCurrentUserEmail(userEmail)
+                }
               }}
               onBack={() => {
                 setAppState('unauthenticated')
@@ -382,6 +438,15 @@ export function ChatInterface() {
         
         <div ref={messagesEndRef} />
       </div>
+
+      {/* Marketing Banner */}
+      {showMarketingBanner && (
+        <MarketingBanner 
+          onClose={() => setShowMarketingBanner(false)} 
+          userEmail={currentUserEmail || userEmail}
+          onInterestCaptured={handleMarketingInterest}
+        />
+      )}
 
       {appState === 'authenticated' && (
         <div className="border-t p-4 bg-card flex-shrink-0 keyboard-adjust">

@@ -203,7 +203,11 @@
     "networkErrorDesc": "No se puede conectar al servidor. Por favor verifica tu conexión a internet e inténtalo de nuevo.",
     "retrying": "Reintentando...",
     "sessionExpired": "Sesión Expirada",
-    "sessionExpiredDesc": "Tu sesión ha expirado. Por favor inicia sesión de nuevo."
+    "sessionExpiredDesc": "Tu sesión ha expirado. Por favor inicia sesión de nuevo.",
+    "notFoundTitle": "¡Error 404: Mal funcionamiento de Red Neuronal! 🤖",
+    "notFoundDescription": "¡Houston, tenemos un problema! Mi cerebro de IA no puede calcular la ubicación de esta página. ¡Parece haber desaparecido en la matriz del ciberespacio! Es hora de recalibrar y volver a la base. ⚡",
+    "notFoundHelper": "Iniciando protocolo de recuperación... ¡Déjame guiarte a casa!",
+    "notFoundButton": "Ejecutar Protocolo de Retorno 🚀"
   },
   "success": {
     "saved": "Guardado exitosamente",
@@ -228,6 +232,20 @@
     "dark": "Oscuro",
     "system": "Sistema",
     "toggleTheme": "Cambiar tema"
+  },
+  "marketing": {
+    "bannerTitle": "¡Desbloquea la Gestión Potenciada por IA!",
+    "description": "Transforma cómo trabajas con tus datos",
+    "betaPrice": "PRECIO BETA",
+    "limitedOffer": "Oferta por tiempo limitado - El precio completo será $29.99/mes",
+    "startTrial": "Comienza Prueba Gratis",
+    "learnMore": "Más Información",
+    "featuresTitle": "Qué obtendrás:",
+    "featureChatAssistant": "Asistente de Chat Inteligente",
+    "featureDataAnalysis": "Análisis de Datos IA",
+    "featureAutoSuggestions": "Auto-Sugerencias",
+    "featureQuickActions": "Acciones Rápidas",
+    "note": "Tu entrada de chat está lista - ¡estamos construyendo estas funciones AI basado en la demanda de acceso temprano!"
   },
   "language": {
     "spanish": "Español",

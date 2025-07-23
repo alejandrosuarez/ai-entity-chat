@@ -167,7 +167,11 @@
     "networkErrorDesc": "Unable to connect to the server. Please check your internet connection and try again.",
     "retrying": "Retrying...",
     "sessionExpired": "Session Expired",
-    "sessionExpiredDesc": "Your session has expired. Please sign in again."
+    "sessionExpiredDesc": "Your session has expired. Please sign in again.",
+    "notFoundTitle": "Error 404: Neural Network Malfunction! 🤖",
+    "notFoundDescription": "Houston, we have a problem! My AI brain can't compute the location of this page. It seems to have vanished into the cyber-space matrix! Time to recalibrate and head back to base. ⚡",
+    "notFoundHelper": "Initiating recovery protocol... Let me guide you home!",
+    "notFoundButton": "Execute Return Protocol 🚀"
   },
   "success": {
     "saved": "Saved successfully",
@@ -192,6 +196,20 @@
     "dark": "Dark",
     "system": "System",
     "toggleTheme": "Toggle theme"
+  },
+  "marketing": {
+    "bannerTitle": "Unlock AI-Powered Management!",
+    "description": "Transform how you work with your data",
+    "betaPrice": "BETA PRICE",
+    "limitedOffer": "Limited time offer - Full price will be $29.99/month",
+    "startTrial": "Start Free Trial",
+    "learnMore": "Learn More",
+    "featuresTitle": "What you'll get:",
+    "featureChatAssistant": "Smart Chat Assistant",
+    "featureDataAnalysis": "AI Data Analysis",
+    "featureAutoSuggestions": "Auto-Suggestions",
+    "featureQuickActions": "Quick Actions",
+    "note": "Your chat input is ready - we're building these AI features based on early access interest!"
   },
   "language": {
     "spanish": "Spanish",
