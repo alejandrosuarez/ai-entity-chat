@@ -19,6 +19,8 @@ import { submitUserMessage } from '@/lib/ai-actions'
 import { type Entity } from '@/lib/api'
 import { type EntityWithImages } from '@/lib/entityHelpers'
 import { ThemeToggle } from './theme-toggle'
+import { LanguageToggle } from './language-toggle'
+import { useTranslations } from 'next-intl'
 
 // Counter to ensure unique message IDs
 let messageIdCounter = 0
@@ -36,6 +38,7 @@ type AppState =
   | 'create_entity'
 
 export function ChatInterface() {
+  const t = useTranslations()
   const [conversation, setConversation] = useUIState<typeof AI>()
   const [appState, setAppState] = useState<AppState>('loading')
   const [userEmail, setUserEmail] = useState('')
@@ -68,10 +71,10 @@ export function ChatInterface() {
   const resetToUnauth = () => {
     setAppState('unauthenticated')
     setCurrentView('email')
-    addToStatusLog('Logged out successfully')
+    addToStatusLog(t('auth.logout'))
     toast({
-      title: 'Logged out',
-      description: 'You have been logged out successfully.',
+      title: t('auth.logout'),
+      description: t('success.logout'),
       variant: 'default',
     })
   }
@@ -189,7 +192,7 @@ export function ChatInterface() {
   if (appState === 'loading') {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-pulse text-lg">Loading...</div>
+        <div className="animate-pulse text-lg">{t('common.loading')}</div>
       </div>
     )
   }
@@ -202,10 +205,10 @@ export function ChatInterface() {
           <div className="mb-4">
             <div className="p-4 bg-muted rounded-lg mb-4">
               <p className="font-medium">
-                Welcome to the Multi-Tenant API Chat! 👋
+                {t('chat.welcomeTitle')}
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                Let&apos;s get you signed in to start managing your entities.
+                {t('chat.welcomeSubtitle')}
               </p>
             </div>
             <EmailForm
@@ -223,9 +226,9 @@ export function ChatInterface() {
         return (
           <div className="mb-4">
             <div className="p-4 bg-muted rounded-lg mb-4">
-              <p className="font-medium">OTP Sent! 📧</p>
+              <p className="font-medium">{t('chat.otpSentTitle')}</p>
               <p className="text-sm text-muted-foreground mt-1">
-                Please check your email and enter the 6-digit verification code.
+                {t('chat.otpSentSubtitle')}
               </p>
             </div>
             <OtpForm
@@ -248,9 +251,9 @@ export function ChatInterface() {
         return (
           <div className="mb-4">
             <div className="p-4 bg-muted rounded-lg mb-4">
-              <p className="font-medium">Welcome back! 🎉</p>
+              <p className="font-medium">{t('chat.welcomeBackTitle')}</p>
               <p className="text-sm text-muted-foreground mt-1">
-                You&apos;re ready to manage your entities. What would you like to do?
+                {t('chat.welcomeBackSubtitle')}
               </p>
             </div>
             <CommandButtons
@@ -324,12 +327,15 @@ export function ChatInterface() {
       <div className="border-b p-4 bg-card flex-shrink-0">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold">Multi-Tenant API Chat</h1>
+            <h1 className="text-xl font-semibold">{t('chat.appTitle')}</h1>
             <p className="text-sm text-muted-foreground">
-              Conversational interface for managing your entities
+              {t('chat.appSubtitle')}
             </p>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 
@@ -340,14 +346,14 @@ export function ChatInterface() {
         {statusLog.length > 0 && (
           <div className="mt-4 p-3 bg-muted/50 rounded-lg border">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-muted-foreground">Status Log</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">{t('chat.statusLog')}</h3>
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={clearStatusLog}
                 className="text-xs h-6 px-2"
               >
-                Clear
+                {t('common.clear')}
               </Button>
             </div>
             <div className="space-y-1 max-h-32 overflow-y-auto">
@@ -383,7 +389,7 @@ export function ChatInterface() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message here..."
+              placeholder={t('chat.placeholder')}
               className="flex-1 min-h-[44px]" // Ensure touch-friendly minimum height
               autoComplete="off"
               autoCorrect="off"
@@ -395,7 +401,7 @@ export function ChatInterface() {
               disabled={!input.trim()}
               className="min-h-[44px] px-6" // Ensure touch-friendly size
             >
-              Send
+              {t('chat.send')}
             </Button>
           </form>
         </div>

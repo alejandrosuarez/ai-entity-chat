@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { AlertTriangle, RefreshCw } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 
 interface Props {
   children: ReactNode
@@ -23,17 +22,7 @@ interface State {
   errorInfo?: ErrorInfo
 }
 
-// Wrapper component to provide translations to class component
-function ErrorBoundaryWithTranslations(props: Props) {
-  const t = useTranslations('errors')
-  return <ErrorBoundaryClass {...props} t={t} />
-}
-
-interface ErrorBoundaryClassProps extends Props {
-  t: (key: string) => string
-}
-
-class ErrorBoundaryClass extends Component<ErrorBoundaryClassProps, State> {
+class RootErrorBoundary extends Component<Props, State> {
   state: State = {
     hasError: false,
   }
@@ -64,9 +53,10 @@ class ErrorBoundaryClass extends Component<ErrorBoundaryClassProps, State> {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/20">
                 <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
               </div>
-              <CardTitle className="text-xl">{this.props.t('somethingWentWrong')}</CardTitle>
+              <CardTitle className="text-xl">Something went wrong</CardTitle>
               <CardDescription>
-                {this.props.t('unexpectedError')}
+                An unexpected error occurred. Please try refreshing the page or
+                contact support if the problem persists.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -80,14 +70,14 @@ class ErrorBoundaryClass extends Component<ErrorBoundaryClassProps, State> {
               <div className="flex flex-col gap-2">
                 <Button onClick={this.handleRetry} className="w-full">
                   <RefreshCw className="mr-2 h-4 w-4" />
-                  {this.props.t('tryAgain')}
+                  Try Again
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => window.location.reload()}
                   className="w-full"
                 >
-                  {this.props.t('refreshPage')}
+                  Refresh Page
                 </Button>
               </div>
             </CardContent>
@@ -100,4 +90,4 @@ class ErrorBoundaryClass extends Component<ErrorBoundaryClassProps, State> {
   }
 }
 
-export default ErrorBoundaryWithTranslations
+export default RootErrorBoundary

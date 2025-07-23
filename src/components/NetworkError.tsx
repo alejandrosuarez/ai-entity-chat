@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Wifi, RefreshCw } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface NetworkErrorProps {
   onRetry: () => void
@@ -20,6 +21,8 @@ export function NetworkError({
   error,
   isRetrying = false,
 }: NetworkErrorProps) {
+  const t = useTranslations('errors')
+  
   return (
     <div className="flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
@@ -27,10 +30,9 @@ export function NetworkError({
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/20">
             <Wifi className="h-6 w-6 text-orange-600 dark:text-orange-400" />
           </div>
-          <CardTitle className="text-xl">Network Error</CardTitle>
+          <CardTitle className="text-xl">{t('networkError')}</CardTitle>
           <CardDescription>
-            Unable to connect to the server. Please check your internet
-            connection and try again.
+            {t('networkErrorDesc')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -45,12 +47,12 @@ export function NetworkError({
             {isRetrying ? (
               <>
                 <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                Retrying...
+                {t('retrying')}
               </>
             ) : (
               <>
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Retry
+                {t('tryAgain')}
               </>
             )}
           </Button>

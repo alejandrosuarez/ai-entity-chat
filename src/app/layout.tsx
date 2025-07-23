@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import { AI } from '@/lib/ai'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
-import ErrorBoundary from '@/components/ErrorBoundary'
+import RootErrorBoundary from '@/components/RootErrorBoundary'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,17 +26,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <ErrorBoundary>
-            <AI>
-              {children}
-              <Toaster />
-            </AI>
-          </ErrorBoundary>
+          <RootErrorBoundary>
+            {children}
+            <Toaster />
+          </RootErrorBoundary>
         </ThemeProvider>
       </body>
     </html>
