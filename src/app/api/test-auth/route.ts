@@ -3,6 +3,25 @@ import { cookies } from "next/headers"
 
 const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "https://multi-tenant-cli-boilerplate-api.vercel.app"
 
+export async function POST(request: Request) {
+  const { action, testToken } = await request.json()
+  const cookieStore = await cookies()
+
+  if (action === 'set') {
+    // Set a test token
+    cookieStore.set('auth_token', testToken || 'test-token-12345', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    })
+    return NextResponse.json({ success: true, message: 'Token set' })
+  }
+  
+  return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
+}
+
 export async function GET() {
   const cookieStore = await cookies()
   const token = cookieStore.get("auth_token")?.value
