@@ -8,11 +8,7 @@ export async function POST(request: Request) {
   const cookieStore = await cookies()
   const token = cookieStore.get("auth_token")?.value
 
-  console.log('notify-owner: token exists?', !!token)
-  console.log('notify-owner: API_BASE_URL:', API_BASE_URL)
-
   if (!token) {
-    console.log('notify-owner: No auth token found in cookies')
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
