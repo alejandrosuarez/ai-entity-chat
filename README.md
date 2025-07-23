@@ -14,6 +14,16 @@ pnpm dev
 bun dev
 ```
 
+### Free Port Development
+
+To run the development server on an automatically assigned free port:
+
+```bash
+PORT=0 npm run dev:port
+```
+
+_Run with: `PORT=0 npm run dev:port` – OS assigns a free port, shown in console._
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

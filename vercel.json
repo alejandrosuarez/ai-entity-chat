@@ -1,0 +1,12 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@next-public-api-url"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_API_URL": "@next-public-api-url"
+    }
+  }
+}
