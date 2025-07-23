@@ -50,7 +50,7 @@ export async function GET() {
     return NextResponse.json({ 
       authenticated: false, 
       token_exists: true,
-      fetch_error: error.message,
+      fetch_error: error instanceof Error ? error.message : 'Unknown error',
       api_base_url: API_BASE_URL
     })
   }
