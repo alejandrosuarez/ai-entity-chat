@@ -75,13 +75,9 @@ function NotificationLoaderContent() {
   }
 
   const handleCancel = () => {
-    const originalParams = searchParams.toString();
-    if (entityId) {
-      const redirect = `/entities/${entityId}${originalParams ? '?' + originalParams : ''}`;
-      router.push(redirect);
-    } else {
-      router.push('/');
-    }
+    // Always redirect to root - the app doesn't have individual entity pages
+    // Users can navigate to their entities through the main interface
+    router.push('/');
   }
 
   // Fetch entity data when entityId is available
