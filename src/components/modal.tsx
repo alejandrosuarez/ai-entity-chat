@@ -40,6 +40,7 @@ export function Modal({
             size="sm"
             onClick={onClose}
             className="p-1 h-8 w-8"
+            title="Back to Entity"
           >
             ✕
           </Button>

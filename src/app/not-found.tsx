@@ -13,7 +13,7 @@ import Image from 'next/image'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden bg-white">
       {/* Background GIF */}
       <div className="absolute inset-0 flex items-center justify-center">
         <Image

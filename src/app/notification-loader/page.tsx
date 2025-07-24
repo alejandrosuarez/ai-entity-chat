@@ -75,8 +75,13 @@ function NotificationLoaderContent() {
   }
 
   const handleCancel = () => {
-    // Go back to the main page
-    window.location.href = '/'
+    const originalParams = searchParams.toString();
+    if (entityId) {
+      const redirect = `/entities/${entityId}${originalParams ? '?' + originalParams : ''}`;
+      router.push(redirect);
+    } else {
+      router.push('/');
+    }
   }
 
   // Fetch entity data when entityId is available

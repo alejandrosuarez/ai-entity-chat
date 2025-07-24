@@ -10,7 +10,8 @@ interface SharePageProps {
 
 async function getSharedEntity(token: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/shared/${token}`, {
+    // Use the local API route which handles the external API call
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/shared/${token}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -33,15 +34,51 @@ export default async function SharePage({ params }: SharePageProps) {
   const entityData = await getSharedEntity(token)
 
   if (!entityData || !entityData.entity) {
-    // Redirect to home if entity not found or not shareable
-    redirect('/')
+    // Show error page instead of redirect for better UX
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 text-center">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </div>
+          <h1 className="text-xl font-semibold text-gray-900 mb-2">Entity Not Found</h1>
+          <p className="text-gray-600 mb-4">The shared entity you're looking for doesn't exist or is no longer available.</p>
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Go to Main App
+          </a>
+        </div>
+      </div>
+    )
   }
 
   const entity = entityData.entity
 
-  // Ensure the entity is actually public and shareable
+  // Show error if entity not shareable instead of redirect
   if (!entity.public_shareable || entity.disabled) {
-    redirect('/')
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 text-center">
+          <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 0h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h1 className="text-xl font-semibold text-gray-900 mb-2">Access Restricted</h1>
+          <p className="text-gray-600 mb-4">This entity is not publicly shareable or has been disabled.</p>
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Go to Main App
+          </a>
+        </div>
+      </div>
+    )
   }
 
   return (
