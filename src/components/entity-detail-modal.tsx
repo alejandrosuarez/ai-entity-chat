@@ -4,13 +4,15 @@ import { useState, useEffect } from 'react'
 import { Modal } from './modal'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Loader2, ExternalLink } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Loader2, ExternalLink, Info, User, Share, Settings } from 'lucide-react'
 import { fetchEntityWithImagesAction } from '@/lib/actions'
 import { useToast } from '@/hooks/use-toast'
 import { type SearchEntity } from '@/lib/api'
 import { type EntityWithImages } from '@/lib/entityHelpers'
 import { RequestInfoButton } from './RequestInfoButton'
 import { ContactOwnerButton } from './ContactOwnerButton'
+import OwnerEntitiesTab from './entity/OwnerEntitiesTab'
 
 interface EntityDetailModalProps {
   isOpen: boolean
@@ -63,13 +65,16 @@ export function EntityDetailModal({ isOpen, onClose, entity }: EntityDetailModal
       onClose={handleClose}
       title={entityName}
     >
-      <div className="space-y-6">
-        {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        ) : (
-          <>
+      <Tabs defaultValue="info" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="info"><Info className="mr-2 h-4 w-4" />Info</TabsTrigger>
+          <TabsTrigger value="owner"><User className="mr-2 h-4 w-4" />Owner</TabsTrigger>
+          <TabsTrigger value="share"><Share className="mr-2 h-4 w-4" />Share</TabsTrigger> 
+          <TabsTrigger value="settings"><Settings className="mr-2 h-4 w-4" />Settings</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="info">
+          <div className="space-y-6">
             {/* Basic Info */}
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -144,7 +149,49 @@ export function EntityDetailModal({ isOpen, onClose, entity }: EntityDetailModal
                 )}
               </div>
             </div>
+            
+            {/* Contact Owner */}
+            <div className="space-y-2 border-t pt-4">
+              <h3 className="font-medium text-sm">Contact Owner</h3>
+              <ContactOwnerButton 
+                entityId={entity.id} 
+                ownerId={entity.owner_id} 
+                entityName={entityName} 
+              />
+            </div>
+          </div>
+        </TabsContent>
 
+        <TabsContent value="owner">
+          <OwnerEntitiesTab entityId={entity.id} currentOwnerName={entity.owner_id} />
+        </TabsContent>
+
+        <TabsContent value="share">
+          {entity.public_shareable && entity.share_token && (
+            <div className="space-y-2 border-t pt-4">
+              <h3 className="font-medium text-sm">Sharing</h3>
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full"
+                onClick={() => {
+                  const shareUrl = `${window.location.origin}/share/${entity.share_token}`
+                  navigator.clipboard.writeText(shareUrl)
+                  toast({
+                    title: 'Copied!',
+                    description: 'Share link copied to clipboard',
+                  })
+                }}
+              >
+                <ExternalLink className="h-3 w-3 mr-2" />
+                Copy Share Link
+              </Button>
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="settings">
+          <div className="space-y-6">
             {/* Category Schema Info */}
             {entity.mtcli_entity_categories && (
               <div className="space-y-2">
@@ -194,42 +241,9 @@ export function EntityDetailModal({ isOpen, onClose, entity }: EntityDetailModal
                 </div>
               </div>
             </div>
-
-            {/* Share Link */}
-            {entity.public_shareable && entity.share_token && (
-              <div className="space-y-2 border-t pt-4">
-                <h3 className="font-medium text-sm">Sharing</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full"
-                  onClick={() => {
-                    const shareUrl = `${window.location.origin}/share/${entity.share_token}`
-                    navigator.clipboard.writeText(shareUrl)
-                    toast({
-                      title: 'Copied!',
-                      description: 'Share link copied to clipboard',
-                    })
-                  }}
-                >
-                  <ExternalLink className="h-3 w-3 mr-2" />
-                  Copy Share Link
-                </Button>
-              </div>
-            )}
-            
-            {/* Contact Owner */}
-            <div className="space-y-2 border-t pt-4">
-              <h3 className="font-medium text-sm">Contact</h3>
-              <ContactOwnerButton 
-                entityId={entity.id} 
-                ownerId={entity.owner_id} 
-                entityName={entityName} 
-              />
-            </div>
-          </>
-        )}
-      </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </Modal>
   )
 }
