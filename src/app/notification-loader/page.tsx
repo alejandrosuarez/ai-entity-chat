@@ -75,9 +75,15 @@ function NotificationLoaderContent() {
   }
 
   const handleCancel = () => {
-    // Always redirect to root - the app doesn't have individual entity pages
-    // Users can navigate to their entities through the main interface
-    router.push('/');
+    const originalParams = searchParams.toString();
+    if (entityId) {
+      // Redirect to entity detail page with locale and preserved query parameters
+      const redirect = `/es/entities/${entityId}${originalParams ? '?' + originalParams : ''}`;
+      router.push(redirect);
+    } else {
+      // Fallback to root if no entityId
+      router.push('/');
+    }
   }
 
   // Fetch entity data when entityId is available

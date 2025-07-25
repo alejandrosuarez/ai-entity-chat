@@ -65,7 +65,66 @@ export async function logoutAction() {
 export async function getAuthStatusAction() {
   const cookieStore = await cookies()
   const token = cookieStore.get('auth_token')?.value
-  return !!token
+  
+  if (!token) {
+    return false
+  }
+  
+  // Validate token with remote API
+  try {
+    const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "https://multi-tenant-cli-boilerplate-api.vercel.app"
+    const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+    })
+    
+    if (response.ok) {
+      // Token is valid, user is authenticated
+      return true
+    } else {
+      // Token is invalid, clear it
+      cookieStore.delete('auth_token')
+      return false
+    }
+  } catch (error) {
+    console.error('Auth validation error:', error)
+    // On network error, assume user is still authenticated if token exists
+    // This prevents logout on temporary network issues
+    return true
+  }
+}
+
+export async function getCurrentUserAction() {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('auth_token')?.value
+  
+  if (!token) {
+    return null
+  }
+  
+  try {
+    const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "https://multi-tenant-cli-boilerplate-api.vercel.app"
+    const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      return data.user
+    } else {
+      // Token is invalid, clear it
+      cookieStore.delete('auth_token')
+      return null
+    }
+  } catch (error) {
+    console.error('Get current user error:', error)
+    return null
+  }
 }
 
 export async function getCategoriesAction() {
