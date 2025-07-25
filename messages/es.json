@@ -251,5 +251,84 @@
     "spanish": "Español",
     "english": "Inglés",
     "changeLanguage": "Cambiar idioma"
+  },
+  "entityDetail": {
+    "title": "Detalles de la Entidad",
+    "loading": "Cargando entidad...",
+    "notFound": "Entidad no encontrada",
+    "notFoundDescription": "La entidad que buscas no existe o no está disponible.",
+    "backToApp": "Volver a la App",
+    "shareEntity": "Compartir Entidad",
+    "basicInfo": "Información Básica",
+    "type": "Tipo",
+    "owner": "Propietario",
+    "createdOn": "Creado el",
+    "lastUpdated": "Última actualización",
+    "publiclyShared": "Compartido públicamente",
+    "privateEntity": "Entidad privada",
+    "tabs": {
+      "otherEntities": "Otras Entidades",
+      "relatedEntities": "Entidades Relacionadas",
+      "statistics": "Estadísticas",
+      "announcements": "Anuncios"
+    },
+    "otherEntities": {
+      "title": "Otras entidades de este propietario",
+      "description": "Explora más entidades del mismo creador",
+      "noEntities": "No se encontraron otras entidades",
+      "loadingEntities": "Cargando otras entidades..."
+    },
+    "relatedEntities": {
+      "title": "Entidades relacionadas",
+      "description": "Descubre entidades con atributos y categorías similares",
+      "noRelated": "No se encontraron entidades relacionadas",
+      "loadingRelated": "Buscando entidades relacionadas...",
+      "similarBy": "Similar por {attribute}",
+      "sameCategory": "Misma categoría"
+    },
+    "statistics": {
+      "title": "Estadísticas de la Entidad",
+      "description": "Información y análisis de esta entidad",
+      "views": "Visualizaciones",
+      "interactions": "Interacciones",
+      "shares": "Compartidos",
+      "lastViewed": "Última visualización",
+      "popularTimes": "Horarios populares de visualización",
+      "viewHistory": "Historial de Visualizaciones",
+      "noStats": "Aún no hay estadísticas disponibles",
+      "loadingStats": "Cargando estadísticas..."
+    },
+    "announcements": {
+      "title": "Anuncios y Características",
+      "description": "Descubre nuevas funciones y actualizaciones",
+      "loginRequired": "Inicio de Sesión Requerido",
+      "loginToUnlock": "Inicia sesión para desbloquear funciones adicionales",
+      "loginNow": "Iniciar Sesión Ahora",
+      "featureUnlocked": "¡Función desbloqueada! Gracias por iniciar sesión.",
+      "betaFeatures": "Funciones Beta",
+      "aiPowered": "Información Potenciada por IA",
+      "advancedAnalytics": "Análisis Avanzados",
+      "realTimeUpdates": "Actualizaciones en Tiempo Real",
+      "upcomingFeatures": "Próximamente"
+    },
+    "login": {
+      "title": "Inicia Sesión para Continuar",
+      "description": "Accede a funciones adicionales iniciando sesión en tu cuenta",
+      "benefits": "Beneficios de iniciar sesión:",
+      "viewStats": "Ver estadísticas detalladas",
+      "saveToFavorites": "Guardar entidades en favoritos",
+      "getNotifications": "Recibir notificaciones sobre actualizaciones",
+      "accessPremium": "Acceder a funciones premium",
+      "stayOnPage": "Permanecer en esta página después del login",
+      "quickLogin": "Inicio Rápido"
+    },
+    "actions": {
+      "viewInApp": "Ver en la App",
+      "shareLink": "Compartir Enlace",
+      "copyLink": "Copiar Enlace",
+      "linkCopied": "¡Enlace copiado al portapapeles!",
+      "reportEntity": "Reportar Entidad",
+      "contactOwner": "Contactar Propietario"
+    }
   }
 }

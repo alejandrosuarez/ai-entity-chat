@@ -215,5 +215,84 @@
     "spanish": "Spanish",
     "english": "English",
     "changeLanguage": "Change language"
+  },
+  "entityDetail": {
+    "title": "Entity Details",
+    "loading": "Loading entity...",
+    "notFound": "Entity not found",
+    "notFoundDescription": "The entity you're looking for doesn't exist or isn't available.",
+    "backToApp": "Back to App",
+    "shareEntity": "Share Entity",
+    "basicInfo": "Basic Information",
+    "type": "Type",
+    "owner": "Owner",
+    "createdOn": "Created on",
+    "lastUpdated": "Last updated",
+    "publiclyShared": "Publicly shared",
+    "privateEntity": "Private entity",
+    "tabs": {
+      "otherEntities": "Other Entities",
+      "relatedEntities": "Related Entities",
+      "statistics": "Statistics",
+      "announcements": "Announcements"
+    },
+    "otherEntities": {
+      "title": "Other entities by this owner",
+      "description": "Explore more entities from the same creator",
+      "noEntities": "No other entities found",
+      "loadingEntities": "Loading other entities..."
+    },
+    "relatedEntities": {
+      "title": "Related entities",
+      "description": "Discover entities with similar attributes and categories",
+      "noRelated": "No related entities found",
+      "loadingRelated": "Finding related entities...",
+      "similarBy": "Similar by {attribute}",
+      "sameCategory": "Same category"
+    },
+    "statistics": {
+      "title": "Entity Statistics",
+      "description": "Insights and analytics for this entity",
+      "views": "Views",
+      "interactions": "Interactions",
+      "shares": "Shares",
+      "lastViewed": "Last viewed",
+      "popularTimes": "Popular viewing times",
+      "viewHistory": "View History",
+      "noStats": "No statistics available yet",
+      "loadingStats": "Loading statistics..."
+    },
+    "announcements": {
+      "title": "Announcements & Features",
+      "description": "Discover new features and updates",
+      "loginRequired": "Login Required",
+      "loginToUnlock": "Login to unlock additional features",
+      "loginNow": "Login Now",
+      "featureUnlocked": "Feature unlocked! Thanks for logging in.",
+      "betaFeatures": "Beta Features",
+      "aiPowered": "AI-Powered Insights",
+      "advancedAnalytics": "Advanced Analytics",
+      "realTimeUpdates": "Real-time Updates",
+      "upcomingFeatures": "Coming Soon"
+    },
+    "login": {
+      "title": "Login to Continue",
+      "description": "Access additional features by logging into your account",
+      "benefits": "Benefits of logging in:",
+      "viewStats": "View detailed statistics",
+      "saveToFavorites": "Save entities to favorites",
+      "getNotifications": "Get notifications about updates",
+      "accessPremium": "Access premium features",
+      "stayOnPage": "Stay on this page after login",
+      "quickLogin": "Quick Login"
+    },
+    "actions": {
+      "viewInApp": "View in App",
+      "shareLink": "Share Link",
+      "copyLink": "Copy Link",
+      "linkCopied": "Link copied to clipboard!",
+      "reportEntity": "Report Entity",
+      "contactOwner": "Contact Owner"
+    }
   }
 }
